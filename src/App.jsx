@@ -1,11 +1,10 @@
 import './App.css';
-import { TestFormat } from './TestFormat.jsx';
-import { ExpenseTable } from './components/ExpenseTable.jsx';
+import {Layout} from "./pages/MainPage.jsx";
 
 function App() {
   return (
     <>
-      <ExpenseTable />
+      <Layout />
     </>
   );
 }
