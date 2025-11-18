@@ -5,7 +5,6 @@ import { ExpenseTable } from './components/ExpenseTable.jsx';
 function App() {
   return (
     <>
-      <TestFormat />
       <ExpenseTable />
     </>
   );
