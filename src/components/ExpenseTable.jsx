@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 export const TableItem = styled.div`
@@ -105,7 +106,7 @@ export const ContainerTitle = styled.div`
 export const ContainerLine = styled.div`
   border: 0.5px solid rgba(153, 153, 153, 1);
   margin-top: 6px;
-  margin-bottom: 18px;
+  margin-bottom: 11px;
 `;
 
 export const ContainerData = styled.div`
@@ -123,7 +124,7 @@ export const OneExpense = styled.div`
 
 export const ExpenseDiscription = styled.div`
   width: 141px;
-  padding-bottom: 14px;
+  padding: 7px 0px;
 
   p {
     margin: 0px;
@@ -138,7 +139,7 @@ export const ExpenseDiscription = styled.div`
 
 export const ExpenseCategory = styled.div`
   width: 141px;
-  padding-bottom: 14px;
+  padding: 7px 0px;
 
   p {
     margin: 0px;
@@ -153,7 +154,7 @@ export const ExpenseCategory = styled.div`
 
 export const ExpenseDate = styled.div`
   width: 141px;
-  padding-bottom: 14px;
+  padding: 7px 0px;
 
   p {
     margin: 0px;
@@ -168,7 +169,7 @@ export const ExpenseDate = styled.div`
 
 export const ExpenseSumm = styled.div`
   width: 126px;
-  padding-bottom: 14px;
+  padding: 7px 0px;
 
   p {
     margin: 0px;
@@ -298,10 +299,11 @@ export const NewExpenseAddButton = styled.button`
   padding: 0px;
   background: rgba(31, 164, 108, 1);
   margin-top: 24px;
+  width: 313px;
 
   p {
     margin: 0px;
-    padding: 11px 89px;
+    padding: 11px 0px;
     color: rgba(255, 255, 255, 1);
     font-size: 12px;
     font-weight: 600;
@@ -313,6 +315,7 @@ export const NewExpenseAddButton = styled.button`
 
 export const ExpenseTable = () => {
   const titles = ['Описание', 'Категория', 'Дата', 'Сумма'];
+  const [ isEditExpense, setIsEditExpense ] = useState(false);
 
   const expenses = [
     {
@@ -457,6 +460,14 @@ export const ExpenseTable = () => {
     },
   ];
 
+  const editExpense = () => {
+    if (isEditExpense) {
+      setIsEditExpense(false);
+    } else {
+      setIsEditExpense(true);
+    }
+  };
+
   return (
     <>
       <TableItem>
@@ -509,91 +520,172 @@ export const ExpenseTable = () => {
                     <p>{expense.sum} Р</p>
                   </ExpenseSumm>
                   <OneExpenseButtons>
-                    <img src="public/EditSign.svg" alt="EditSign" />
+                    <img onClick={editExpense} src="public/EditSign.svg" alt="EditSign" />
                     <img src="public/DeleteSign.svg" alt="DeleteSign" />
                   </OneExpenseButtons>
                 </OneExpense>
               ))}
             </ContainerData>
           </TableContainer>
-          <NewExpense>
-            <NewExpenseConainer>
-              <NewExpenseTitle>
-                <h3>Новый расход</h3>
-              </NewExpenseTitle>
-              <NewExpenseInfo>
-                <h4>Описание</h4>
-                <DescriptionInput
-                  name="description"
-                  id="textArea"
-                  placeholder="Введите описание"
-                  type="text"
-                />
-              </NewExpenseInfo>
-              <NewExpenseCategory>
-                <h4>Категория</h4>
-                <ExpenseCategories>
-                  <ExpenseCategoriesButton>
-                    <CategoriesButtonContent>
-                      <img src="public/FoodIcon.svg" alt="FoodIcon" />
-                      <p>Еда</p>
-                    </CategoriesButtonContent>
-                  </ExpenseCategoriesButton>
-                  <ExpenseCategoriesButton>
-                    <CategoriesButtonContent>
-                      <img src="public/TransportIcon.svg" alt="TransportIcon" />
-                      <p>Транспорт</p>
-                    </CategoriesButtonContent>
-                  </ExpenseCategoriesButton>
-                  <ExpenseCategoriesButton>
-                    <CategoriesButtonContent>
-                      <img src="public/HouseIcon.svg" alt="HouseIcon" />
-                      <p>Жилье</p>
-                    </CategoriesButtonContent>
-                  </ExpenseCategoriesButton>
-                  <ExpenseCategoriesButton>
-                    <CategoriesButtonContent>
-                      <img src="public/GameIcon.svg" alt="GameIcon" />
-                      <p>Развлечения</p>
-                    </CategoriesButtonContent>
-                  </ExpenseCategoriesButton>
-                  <ExpenseCategoriesButton>
-                    <CategoriesButtonContent>
-                      <img src="public/EducationIcon.svg" alt="EducationIcon" />
-                      <p>Образование</p>
-                    </CategoriesButtonContent>
-                  </ExpenseCategoriesButton>
-                  <ExpenseCategoriesButton>
-                    <CategoriesButtonContent>
-                      <img src="public/OtherIcon.svg" alt="OtherIcon" />
-                      <p>Другое</p>
-                    </CategoriesButtonContent>
-                  </ExpenseCategoriesButton>
-                </ExpenseCategories>
-              </NewExpenseCategory>
-              <NewExpenseInfo>
-                <h4>Дата</h4>
-                <DescriptionInput
-                  name="date"
-                  id="textDate"
-                  placeholder="Введите дату"
-                  type="text"
-                />
-              </NewExpenseInfo>
-              <NewExpenseInfo>
-                <h4>Сумма</h4>
-                <DescriptionInput
-                  name="summ"
-                  id="textSumm"
-                  placeholder="Введите сумму"
-                  type="text"
-                />
-              </NewExpenseInfo>
-              <NewExpenseAddButton>
-                <p>Добвить новый расход</p>
-              </NewExpenseAddButton>
-            </NewExpenseConainer>
-          </NewExpense>
+          {isEditExpense ? (
+            <NewExpense>
+              <NewExpenseConainer>
+                <NewExpenseTitle>
+                  <h3>Редактирование</h3>
+                </NewExpenseTitle>
+                <NewExpenseInfo>
+                  <h4>Описание</h4>
+                  <DescriptionInput
+                    name="description"
+                    id="textArea"
+                    placeholder="Введите описание"
+                    type="text"
+                  />
+                </NewExpenseInfo>
+                <NewExpenseCategory>
+                  <h4>Категория</h4>
+                  <ExpenseCategories>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/FoodIcon.svg" alt="FoodIcon" />
+                        <p>Еда</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/TransportIcon.svg" alt="TransportIcon" />
+                        <p>Транспорт</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/HouseIcon.svg" alt="HouseIcon" />
+                        <p>Жилье</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/GameIcon.svg" alt="GameIcon" />
+                        <p>Развлечения</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/EducationIcon.svg" alt="EducationIcon" />
+                        <p>Образование</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/OtherIcon.svg" alt="OtherIcon" />
+                        <p>Другое</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                  </ExpenseCategories>
+                </NewExpenseCategory>
+                <NewExpenseInfo>
+                  <h4>Дата</h4>
+                  <DescriptionInput
+                    name="date"
+                    id="textDate"
+                    placeholder="Введите дату"
+                    type="text"
+                  />
+                </NewExpenseInfo>
+                <NewExpenseInfo>
+                  <h4>Сумма</h4>
+                  <DescriptionInput
+                    name="summ"
+                    id="textSumm"
+                    placeholder="Введите сумму"
+                    type="text"
+                  />
+                </NewExpenseInfo>
+                <NewExpenseAddButton>
+                  <p>Сохранить редактирование</p>
+                </NewExpenseAddButton>
+              </NewExpenseConainer>
+            </NewExpense>
+          ) : (
+            <NewExpense>
+              <NewExpenseConainer>
+                <NewExpenseTitle>
+                  <h3>Новый расход</h3>
+                </NewExpenseTitle>
+                <NewExpenseInfo>
+                  <h4>Описание</h4>
+                  <DescriptionInput
+                    name="description"
+                    id="textArea"
+                    placeholder="Введите описание"
+                    type="text"
+                  />
+                </NewExpenseInfo>
+                <NewExpenseCategory>
+                  <h4>Категория</h4>
+                  <ExpenseCategories>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/FoodIcon.svg" alt="FoodIcon" />
+                        <p>Еда</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/TransportIcon.svg" alt="TransportIcon" />
+                        <p>Транспорт</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/HouseIcon.svg" alt="HouseIcon" />
+                        <p>Жилье</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/GameIcon.svg" alt="GameIcon" />
+                        <p>Развлечения</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/EducationIcon.svg" alt="EducationIcon" />
+                        <p>Образование</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/OtherIcon.svg" alt="OtherIcon" />
+                        <p>Другое</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                  </ExpenseCategories>
+                </NewExpenseCategory>
+                <NewExpenseInfo>
+                  <h4>Дата</h4>
+                  <DescriptionInput
+                    name="date"
+                    id="textDate"
+                    placeholder="Введите дату"
+                    type="text"
+                  />
+                </NewExpenseInfo>
+                <NewExpenseInfo>
+                  <h4>Сумма</h4>
+                  <DescriptionInput
+                    name="summ"
+                    id="textSumm"
+                    placeholder="Введите сумму"
+                    type="text"
+                  />
+                </NewExpenseInfo>
+                <NewExpenseAddButton>
+                  <p>Добвить новый расход</p>
+                </NewExpenseAddButton>
+              </NewExpenseConainer>
+            </NewExpense>
+          )}
         </TableInfo>
       </TableItem>
     </>
