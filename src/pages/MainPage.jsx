@@ -13,12 +13,19 @@ const Page = styled.div`
 const Header = styled.header`
     width: 100%;
     height: 64px;
+    border-bottom: 1px solid #f3f4f6;
+    background: #ffffff;
     display: flex;
     align-items: center;
+`;
+
+const HeaderInner = styled.div`
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
     padding: 0 120px;
-    box-sizing: border-box;
-    border-bottom: 1px solid #f3f4f6;
-    background: #ffffff; 
+    display: flex;
+    align-items: center;
 
     @media (max-width: 768px) {
         padding: 0 20px;
@@ -32,29 +39,44 @@ const LogoWrapper = styled.div`
     margin-bottom: 22px;
 `;
 
-
-
 const Main = styled.main`
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const MainInner = styled.div`
+  width: 100%;
+  max-width: 1440px;
+  height: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+
+  @media (max-width: 768px) {
+    height: auto;
+    min-height: calc(100vh - 64px);
+    padding: 20px;
+    align-items: flex-start;
+  }
 `;
 
 export const Layout = ({ children }) => {
     return (
         <Page>
             <Header>
-                <LogoWrapper>
-                    {/*<LogoText>*/}
+                <HeaderInner>
+                    <LogoWrapper>
                         <img src={logo} alt="Skypro Wallet Logo" />
-                    {/*</LogoText>*/}
-                </LogoWrapper>
+                    </LogoWrapper>
+                </HeaderInner>
             </Header>
 
-            <Main>{children}</Main>
+            <Main>
+                <MainInner>{children}</MainInner>
+            </Main>
         </Page>
     );
 };

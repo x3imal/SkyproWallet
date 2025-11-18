@@ -17,5 +17,5 @@ body,
 /* Базовые стили для тела страницы */
 body {
     font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background-color: #F4F5F6; /* совпадает с Page, на всякий случай */
+    background-color: #F4F5F6;
 }
