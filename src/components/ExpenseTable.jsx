@@ -28,6 +28,7 @@ export const TableContainer = styled.div`
 `;
 
 export const ContainerHeader = styled.div`
+  position: relative;
   display: flex;
   padding: 32px;
   gap: 130px;
@@ -62,6 +63,7 @@ export const FilterBattons = styled.div`
 export const FilterBatton = styled.div`
   display: flex;
   gap: 8px;
+  cursor: pointer;
 
   p {
     color: rgba(0, 0, 0, 1);
@@ -78,10 +80,34 @@ export const FilterBatton = styled.div`
       border-color: #fff;
     }
   }
+`;
 
-  img {
-    cursor: pointer;
-  }
+export const FilterCategory = styled.div`
+  position: absolute;
+  top: 66px;
+  right: 166px;
+  width: 176px;
+  height: 240px;
+  box-sizing: border-box;
+  border: 0.5px solid rgba(153, 153, 153, 1);
+  border-radius: 6px;
+  box-shadow: 0px 20px 67px -12px rgba(0, 0, 0, 0.13);
+  background: rgba(255, 255, 255, 1);
+  padding: 12px;
+`;
+
+export const SortCategory = styled.div`
+  position: absolute;
+  top: 66px;
+  right: 34px;
+  width: 106px;
+  height: 92px;
+  box-sizing: border-box;
+  border: 0.5px solid rgba(153, 153, 153, 1);
+  border-radius: 6px;
+  box-shadow: 0px 20px 67px -12px rgba(0, 0, 0, 0.13);
+  background: rgba(255, 255, 255, 1);
+  padding: 12px;
 `;
 
 export const ContainerTitles = styled.div`
@@ -273,6 +299,12 @@ export const ExpenseCategories = styled.div`
 export const ExpenseCategoriesButton = styled.button`
   padding: 8px 20px;
   border: none;
+  border-radius: 30px;
+
+  &:focus {
+    outline: none;
+    background: rgba(219, 255, 233, 1);
+  }
 `;
 
 export const CategoriesButtonContent = styled.div`
@@ -315,7 +347,9 @@ export const NewExpenseAddButton = styled.button`
 
 export const ExpenseTable = () => {
   const titles = ['Описание', 'Категория', 'Дата', 'Сумма'];
-  const [ isEditExpense, setIsEditExpense ] = useState(false);
+  const [isEditExpense, setIsEditExpense] = useState(false);
+  const [isSort, setIsSort] = useState(true);
+  const [isFilter, setIsFilter] = useState(false);
 
   const expenses = [
     {
@@ -468,6 +502,22 @@ export const ExpenseTable = () => {
     }
   };
 
+  const sortExpense = () => {
+    if (isSort) {
+      setIsSort(false);
+    } else {
+      setIsSort(true);
+    }
+  };
+
+  const filterExpense = () => {
+    if (isFilter) {
+      setIsFilter(false);
+    } else {
+      setIsFilter(true);
+    }
+  };
+
   return (
     <>
       <TableItem>
@@ -479,14 +529,14 @@ export const ExpenseTable = () => {
             <ContainerHeader>
               <h3>Таблица расходов</h3>
               <FilterBattons>
-                <FilterBatton>
+                <FilterBatton onClick={filterExpense}>
                   <p>Фильтровать по:</p>
                   <p></p>
                   <p>
                     <img src="public/FilterArrow.svg" alt="Arrow" />
                   </p>
                 </FilterBatton>
-                <FilterBatton>
+                <FilterBatton onClick={sortExpense}>
                   <p>Сортировать по:</p>
                   <p></p>
                   <p>
@@ -494,6 +544,64 @@ export const ExpenseTable = () => {
                   </p>
                 </FilterBatton>
               </FilterBattons>
+              {isFilter && (
+                <FilterCategory>
+                  <ExpenseCategories>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/FoodIcon.svg" alt="FoodIcon" />
+                        <p>Еда</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/TransportIcon.svg" alt="TransportIcon" />
+                        <p>Транспорт</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/HouseIcon.svg" alt="HouseIcon" />
+                        <p>Жилье</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/GameIcon.svg" alt="GameIcon" />
+                        <p>Развлечения</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/EducationIcon.svg" alt="EducationIcon" />
+                        <p>Образование</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <img src="public/OtherIcon.svg" alt="OtherIcon" />
+                        <p>Другое</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                  </ExpenseCategories>
+                </FilterCategory>
+              )}
+              {isSort && (
+                <SortCategory>
+                  <ExpenseCategories>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <p>Дате</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                    <ExpenseCategoriesButton>
+                      <CategoriesButtonContent>
+                        <p>Сумме</p>
+                      </CategoriesButtonContent>
+                    </ExpenseCategoriesButton>
+                  </ExpenseCategories>
+                </SortCategory>
+              )}
             </ContainerHeader>
             <ContainerTitles>
               {titles.map((title) => (
