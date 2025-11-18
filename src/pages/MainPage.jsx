@@ -22,45 +22,102 @@ const Header = styled.header`
 const HeaderInner = styled.div`
     width: 100%;
     max-width: 1440px;
+    height: 64px;
     margin: 0 auto;
-    padding: 0 120px;
     display: flex;
     align-items: center;
-
-    @media (max-width: 768px) {
-        padding: 0 20px;
-    }
 `;
 
 const LogoWrapper = styled.div`
     display: flex;
     align-items: center;
-    margin-top: 23px;
-    margin-bottom: 22px;
+    margin-left: 120px;
+
+    img {
+        display: block;
+    }
+`;
+
+const Nav = styled.nav`
+    width: 274px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px; 
+    margin: 0 auto; 
+`;
+
+const NavLink = styled.button`
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 170%;
+    letter-spacing: 0;
+    text-align: center;
+
+    color: #000000;
+
+    ${({ active }) =>
+            active &&
+            `
+      color: #7334EA;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    `}
+
+    &:hover {
+        color: #7334EA;
+        
+    }
+`;
+
+const ExitButton = styled.button`
+    margin-right: 120px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    font-size: 14px;
+    line-height: 170%;
+    font-weight: 600;
+
+    color: #000000;
+
+    &:hover {
+        color: #7334EA;
+    }
 `;
 
 const Main = styled.main`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const MainInner = styled.div`
-  width: 100%;
-  max-width: 1440px;
-  height: 800px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center; 
-  align-items: center;
+    width: 100%;
+    max-width: 1440px;
+    height: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  @media (max-width: 768px) {
-    height: auto;
-    min-height: calc(100vh - 64px);
-    padding: 20px;
-    align-items: flex-start;
-  }
+    @media (max-width: 768px) {
+        height: auto;
+        min-height: calc(100vh - 64px);
+        padding: 20px;
+        align-items: flex-start;
+    }
 `;
 
 export const Layout = ({ children }) => {
@@ -71,6 +128,13 @@ export const Layout = ({ children }) => {
                     <LogoWrapper>
                         <img src={logo} alt="Skypro Wallet Logo" />
                     </LogoWrapper>
+
+                    <Nav>
+                        <NavLink active>Мои расходы</NavLink>
+                        <NavLink>Анализ расходов</NavLink>
+                    </Nav>
+
+                    <ExitButton>Выйти</ExitButton>
                 </HeaderInner>
             </Header>
 
