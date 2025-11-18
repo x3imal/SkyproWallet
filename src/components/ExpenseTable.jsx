@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 export const TableItem = styled.div`
@@ -348,8 +348,39 @@ export const NewExpenseAddButton = styled.button`
 export const ExpenseTable = () => {
   const titles = ['Описание', 'Категория', 'Дата', 'Сумма'];
   const [isEditExpense, setIsEditExpense] = useState(false);
-  const [isSort, setIsSort] = useState(true);
+  const [isSort, setIsSort] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
+
+  const MOBILE_BREAKPOINT = 376;
+
+  function useIsMobile() {
+    const [isMobile, setIsMobile] = useState(undefined);
+
+    useEffect(() => {
+      const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+
+      const onChange = () => {
+        setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+      };
+
+      mql.addEventListener('change', onChange);
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+
+      return () => {
+        mql.removeEventListener('change', onChange);
+      };
+    }, []);
+
+    return !!isMobile;
+  }
+
+  function MyComponent() {
+const isMobile = useIsMobile();
+
+console.log(isMobile ? "Мобильная версия" : "Десктопная версия")
+}
+
+MyComponent()
 
   const expenses = [
     {
