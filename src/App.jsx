@@ -1,10 +1,10 @@
 import './App.css';
-import { TestFormat } from './TestFormat.jsx';
+import {Layout} from "./pages/MainPage.jsx";
 
 function App() {
   return (
     <>
-      <TestFormat />
+      <Layout />
     </>
   );
 }
