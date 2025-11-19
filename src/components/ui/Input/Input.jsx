@@ -23,7 +23,7 @@ export const Input = styled.input`
     font-size: 12px;
     line-height: 100%;
     letter-spacing: 0px;
-    text-align: center;
+    text-align: start;
     color: #999999;
   }
 
