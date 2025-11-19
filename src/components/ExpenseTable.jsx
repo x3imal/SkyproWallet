@@ -139,6 +139,7 @@ export const ContainerData = styled.div`
   height: 479px;
   overflow: auto;
   overscroll-behavior: contain;
+  scrollbar-width: thin;
 `;
 
 export const OneExpense = styled.div`
@@ -375,12 +376,12 @@ export const ExpenseTable = () => {
   }
 
   function MyComponent() {
-const isMobile = useIsMobile();
+    const isMobile = useIsMobile();
 
-console.log(isMobile ? "Мобильная версия" : "Десктопная версия")
-}
+    console.log(isMobile ? 'Мобильная версия' : 'Десктопная версия');
+  }
 
-MyComponent()
+  MyComponent();
 
   const expenses = [
     {
