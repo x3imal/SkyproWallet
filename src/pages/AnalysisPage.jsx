@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import {ExpensesChartModal} from "../components/ExpensesChartModal/ExpensesChartModal.jsx";
+import { Calendar } from "../components/ExpensesChartModal/Calendar.jsx";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -11,7 +12,7 @@ const Wrapper = styled.div`
 export const AnalysisPage = () => {
     return (
         <Wrapper>
-            /* тут будет модалка календаря */
+            <Calendar/>
             <ExpensesChartModal />
         </Wrapper>
     );
