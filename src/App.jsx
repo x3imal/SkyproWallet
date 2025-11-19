@@ -5,8 +5,9 @@ import { ExpenseTable } from './components/ExpenseTable.jsx';
 function App() {
   return (
     <>
-      <Layout />
-      <ExpenseTable />
+      <Layout>
+        <ExpenseTable />
+      </Layout>
     </>
   );
 }
