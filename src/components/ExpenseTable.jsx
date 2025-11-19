@@ -2,18 +2,22 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 export const TableItem = styled.div`
-  padding: 0px 118px;
+    width: 100%;
+    padding: 32px 118px 0;
+    box-sizing: border-box;
 `;
 
 export const TableTitle = styled.div`
-  h2 {
-    color: rgba(0, 0, 0, 1);
-    font-size: 32px;
-    font-weight: 700;
-    text-align: left;
-  }
-`;
+    margin-top: 0;
+    margin-bottom: 32px;
 
+    h2 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 700;
+        color: #000000;
+    }
+`;
 export const TableInfo = styled.div`
   display: flex;
   gap: 34px;
