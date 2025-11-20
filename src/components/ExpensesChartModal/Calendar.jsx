@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 export const CalendarWrapper = styled.div`
@@ -96,6 +97,7 @@ export const CalendarMonths = styled.div`
 `;
 
 export const MonthsTitle = styled.div`
+  padding-bottom: 12px;
   p {
     color: rgba(0, 0, 0, 1);
     font-size: 16px;
@@ -139,26 +141,118 @@ export const EmptyDay = styled.div`
   height: 40px;
 `;
 
+export const CalendarYears = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 24px 12px 0px 32px;
+`;
+
+export const YearsTitle = styled.div`
+  padding-bottom: 12px;
+  p {
+    color: rgba(0, 0, 0, 1);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+`;
+
+export const CalendarMonthses = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+`;
+
+export const CalendarFullMonth = styled.div`
+  width: 101px;
+  height: 34px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 1);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: -0.2px;
+  cursor: pointer;
+  border-radius: 60px;
+  background: rgba(244, 245, 246, 1);
+  color: rgba(0, 0, 0, 1);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  letter-spacing: 0%;
+  text-align: center;
+
+  &:hover {
+    color: rgba(31, 164, 108, 1);
+    background: rgba(219, 255, 233, 1);
+  }
+`;
+
 export const Calendar = () => {
+  const [isYear, setIsYear] = useState(false);
+
   const WeekendsDays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
-  const currentDate = new Date();
+  const Months = [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь',
+  ];
 
-  const days = [];
+  const MonthNovember = new Date();
 
-  const beginningOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+  const DecemberDays = [];
 
-  const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+  const NovembersDays = [];
 
-  const startDay = (beginningOfMonth.getDay() + 6) % 7;
-  const daysPerMonth = endOfMonth.getDate();
+  const beginningNovember = new Date(MonthNovember.getFullYear(), MonthNovember.getMonth(), 1);
 
-  for (let i = 0; i < startDay; i++) {
-    days.push(null);
+  const endNovember = new Date(MonthNovember.getFullYear(), MonthNovember.getMonth() + 1, 0);
+
+  const beginningDecember = new Date(MonthNovember.getFullYear(), MonthNovember.getMonth() + 1, 1);
+
+  const endDecember = new Date(MonthNovember.getFullYear(), MonthNovember.getMonth() + 2, 0);
+
+  const startDayNovember = (beginningNovember.getDay() + 6) % 7;
+  const daysPerMonthNovember = endNovember.getDate();
+
+  const startDayDecember = (beginningDecember.getDay() + 6) % 7;
+  const daysPerMonthDecember = endDecember.getDate();
+
+  for (let i = 0; i < startDayNovember; i++) {
+    NovembersDays.push(null);
   }
-  for (let day = 1; day <= daysPerMonth; day++) {
-    days.push(new Date(currentDate.getFullYear(), currentDate.getMonth(), day));
+  for (let day = 1; day <= daysPerMonthNovember; day++) {
+    NovembersDays.push(new Date(MonthNovember.getFullYear(), MonthNovember.getMonth(), day));
   }
+
+  for (let i = 0; i < startDayDecember; i++) {
+    DecemberDays.push(null);
+  }
+  for (let day = 1; day <= daysPerMonthDecember; day++) {
+    DecemberDays.push(new Date(MonthNovember.getFullYear(), MonthNovember.getMonth() + 1, day));
+  }
+
+  const handleChangeYear = () => {
+    setIsYear(true);
+  };
+
+  const handleChangeMonth = () => {
+    setIsYear(false);
+  };
 
   return (
     <>
@@ -169,10 +263,10 @@ export const Calendar = () => {
               <h3>Период</h3>
             </CalendarHeaderTitle>
             <CalendarHeaderPeriods>
-              <CalendarPeriod>
+              <CalendarPeriod onClick={handleChangeMonth}>
                 <p>Месяц</p>
               </CalendarPeriod>
-              <CalendarPeriod>
+              <CalendarPeriod onClick={handleChangeYear}>
                 <p>Год</p>
               </CalendarPeriod>
             </CalendarHeaderPeriods>
@@ -187,36 +281,71 @@ export const Calendar = () => {
           <HeaderLine />
         </CalendarHeader>
         <CalendarDates>
-          <CalendarMonths>
-            <MonthsTitle>
-              <p>Ноябрь 2025</p>
-            </MonthsTitle>
-            <CalendarDays>
-              {days.map((day, i) =>
-                day ? <CalendarCellS key={i}>{day.getDate()}</CalendarCellS> : <EmptyDay key={i} />,
-              )}
-            </CalendarDays>
-          </CalendarMonths>
-          <CalendarMonths>
-            <MonthsTitle>
-              <p>Ноябрь 2025</p>
-            </MonthsTitle>
-            <CalendarDays>
-              {days.map((day, i) =>
-                day ? <CalendarCellS key={i}>{day.getDate()}</CalendarCellS> : <EmptyDay key={i} />,
-              )}
-            </CalendarDays>
-          </CalendarMonths>
-          <CalendarMonths>
-            <MonthsTitle>
-              <p>Ноябрь 2025</p>
-            </MonthsTitle>
-            <CalendarDays>
-              {days.map((day, i) =>
-                day ? <CalendarCellS key={i}>{day.getDate()}</CalendarCellS> : <EmptyDay key={i} />,
-              )}
-            </CalendarDays>
-          </CalendarMonths>
+          {!isYear ? (
+            <>
+              <CalendarMonths>
+                <MonthsTitle>
+                  <p>Ноябрь 2025</p>
+                </MonthsTitle>
+                <CalendarDays>
+                  {NovembersDays.map((day, i) =>
+                    day ? (
+                      <CalendarCellS key={i}>{day.getDate()}</CalendarCellS>
+                    ) : (
+                      <EmptyDay key={i} />
+                    ),
+                  )}
+                </CalendarDays>
+              </CalendarMonths>
+              <CalendarMonths>
+                <MonthsTitle>
+                  <p>Декабрь 2025</p>
+                </MonthsTitle>
+                <CalendarDays>
+                  {DecemberDays.map((day, i) =>
+                    day ? (
+                      <CalendarCellS key={i}>{day.getDate()}</CalendarCellS>
+                    ) : (
+                      <EmptyDay key={i} />
+                    ),
+                  )}
+                </CalendarDays>
+              </CalendarMonths>
+            </>
+          ) : (
+            <>
+              <CalendarYears>
+                <YearsTitle>
+                  <p>2025</p>
+                </YearsTitle>
+                <CalendarMonthses>
+                  {Months.map((Month, i) => (
+                    <CalendarFullMonth key={i}>{Month}</CalendarFullMonth>
+                  ))}
+                </CalendarMonthses>
+              </CalendarYears>
+              <CalendarYears>
+                <YearsTitle>
+                  <p>2026</p>
+                </YearsTitle>
+                <CalendarMonthses>
+                  {Months.map((Month, i) => (
+                    <CalendarFullMonth key={i}>{Month}</CalendarFullMonth>
+                  ))}
+                </CalendarMonthses>
+              </CalendarYears>
+              <CalendarYears>
+                <YearsTitle>
+                  <p>2027</p>
+                </YearsTitle>
+                <CalendarMonthses>
+                  {Months.map((Month, i) => (
+                    <CalendarFullMonth key={i}>{Month}</CalendarFullMonth>
+                  ))}
+                </CalendarMonthses>
+              </CalendarYears>
+            </>
+          )}
         </CalendarDates>
       </CalendarWrapper>
     </>
