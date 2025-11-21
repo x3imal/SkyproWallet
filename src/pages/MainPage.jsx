@@ -63,9 +63,9 @@ const NavLink = styled.button`
 
     color: #000000;
 
-    ${({ active }) =>
-            active &&
-            `
+    ${({ $active }) =>
+    $active &&
+    `
       color: #7334EA;
       font-weight: 600;
       text-decoration: underline;
@@ -129,7 +129,7 @@ export const Layout = ({ children }) => {
                     </LogoWrapper>
 
                     <Nav>
-                        <NavLink active>Мои расходы</NavLink>
+                        <NavLink $active>Мои расходы</NavLink>
                         <NavLink>Анализ расходов</NavLink>
                     </Nav>
 
