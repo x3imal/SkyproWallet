@@ -1,19 +1,25 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Button } from './ui/Button/Button.jsx';
+import { Input } from './ui/Input/Input.jsx';
 
 export const TableItem = styled.div`
-  padding: 0px 118px;
+    width: 100%;
+    padding: 32px 118px 0;
+    box-sizing: border-box;
 `;
 
 export const TableTitle = styled.div`
-  h2 {
-    color: rgba(0, 0, 0, 1);
-    font-size: 32px;
-    font-weight: 700;
-    text-align: left;
-  }
-`;
+    margin-top: 0;
+    margin-bottom: 32px;
 
+    h2 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 700;
+        color: #000000;
+    }
+`;
 export const TableInfo = styled.div`
   display: flex;
   gap: 34px;
@@ -259,22 +265,8 @@ export const NewExpenseInfo = styled.div`
   }
 `;
 
-export const DescriptionInput = styled.input`
-  height: 39px;
-  width: 100%;
-  box-sizing: border-box;
-  border: 0.5px solid rgba(153, 153, 153, 1);
-  border-radius: 6px;
-  padding: 12px;
-
-  &::placeholder {
-    color: rgba(153, 153, 153, 1);
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 15px;
-    letter-spacing: 0px;
-    text-align: start;
-  }
+const NewExpenseButton = styled(Button)`
+  margin-top: 24px;
 `;
 
 export const NewExpenseCategory = styled.div`
@@ -327,23 +319,7 @@ export const CategoriesButtonContent = styled.div`
   }
 `;
 
-export const NewExpenseAddButton = styled.button`
-  padding: 0px;
-  background: rgba(31, 164, 108, 1);
-  margin-top: 24px;
-  width: 313px;
 
-  p {
-    margin: 0px;
-    padding: 11px 0px;
-    color: rgba(255, 255, 255, 1);
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 15px;
-    letter-spacing: 0px;
-    text-align: center;
-  }
-`;
 
 export const ExpenseTable = () => {
   const titles = ['Описание', 'Категория', 'Дата', 'Сумма'];
@@ -674,7 +650,7 @@ MyComponent()
                 </NewExpenseTitle>
                 <NewExpenseInfo>
                   <h4>Описание</h4>
-                  <DescriptionInput
+                  <Input
                     name="description"
                     id="textArea"
                     placeholder="Введите описание"
@@ -724,7 +700,7 @@ MyComponent()
                 </NewExpenseCategory>
                 <NewExpenseInfo>
                   <h4>Дата</h4>
-                  <DescriptionInput
+                  <Input
                     name="date"
                     id="textDate"
                     placeholder="Введите дату"
@@ -733,16 +709,16 @@ MyComponent()
                 </NewExpenseInfo>
                 <NewExpenseInfo>
                   <h4>Сумма</h4>
-                  <DescriptionInput
+                  <Input
                     name="summ"
                     id="textSumm"
                     placeholder="Введите сумму"
                     type="text"
                   />
                 </NewExpenseInfo>
-                <NewExpenseAddButton>
+                <NewExpenseButton>
                   <p>Сохранить редактирование</p>
-                </NewExpenseAddButton>
+                </NewExpenseButton>
               </NewExpenseConainer>
             </NewExpense>
           ) : (
@@ -753,7 +729,7 @@ MyComponent()
                 </NewExpenseTitle>
                 <NewExpenseInfo>
                   <h4>Описание</h4>
-                  <DescriptionInput
+                  <Input
                     name="description"
                     id="textArea"
                     placeholder="Введите описание"
@@ -803,7 +779,7 @@ MyComponent()
                 </NewExpenseCategory>
                 <NewExpenseInfo>
                   <h4>Дата</h4>
-                  <DescriptionInput
+                  <Input
                     name="date"
                     id="textDate"
                     placeholder="Введите дату"
@@ -812,16 +788,16 @@ MyComponent()
                 </NewExpenseInfo>
                 <NewExpenseInfo>
                   <h4>Сумма</h4>
-                  <DescriptionInput
+                  <Input
                     name="summ"
                     id="textSumm"
                     placeholder="Введите сумму"
                     type="text"
                   />
                 </NewExpenseInfo>
-                <NewExpenseAddButton>
+                <NewExpenseButton>
                   <p>Добвить новый расход</p>
-                </NewExpenseAddButton>
+                </NewExpenseButton>
               </NewExpenseConainer>
             </NewExpense>
           )}

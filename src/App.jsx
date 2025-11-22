@@ -1,6 +1,7 @@
 import './App.css';
 import {Layout} from "./pages/MainPage.jsx";
-import { AuthModal } from './components/AuthModal/AuthModal.jsx';
+import { ExpenseTable } from './components/ExpenseTable.jsx';
+
 
 function App() {
   return (

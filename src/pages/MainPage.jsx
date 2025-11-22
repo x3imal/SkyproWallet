@@ -97,20 +97,20 @@ const ExitButton = styled.button`
 `;
 
 const Main = styled.main`
-    flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 `;
 
 const MainInner = styled.div`
     width: 100%;
     max-width: 1440px;
-    height: 800px;
+    height: auto;
     margin: 0 auto;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-top: 36px;
 
     @media (max-width: 768px) {
         height: auto;
