@@ -54,7 +54,6 @@ const NavLink = styled.button`
     cursor: pointer;
     padding: 0;
 
-    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-style: normal;
     font-size: 14px;
