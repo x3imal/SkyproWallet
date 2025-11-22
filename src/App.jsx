@@ -1,10 +1,14 @@
 import './App.css';
-import { TestFormat } from './TestFormat.jsx';
+import {Layout} from "./pages/MainPage.jsx";
+import {ExpensesChartModal} from "./components/ExpensesChartModal/ExpensesChartModal.jsx";
+import {AnalysisPage} from "./pages/AnalysisPage.jsx";
 
 function App() {
   return (
     <>
-      <TestFormat />
+      <Layout>
+          <AnalysisPage />
+      </Layout>
     </>
   );
 }
