@@ -1,13 +1,12 @@
 import './App.css';
 import {Layout} from "./pages/MainPage.jsx";
-import {ExpensesChartModal} from "./components/ExpensesChartModal/ExpensesChartModal.jsx";
-import {AnalysisPage} from "./pages/AnalysisPage.jsx";
+import { ExpenseTable } from './components/ExpenseTable.jsx';
 
 function App() {
   return (
     <>
       <Layout>
-          <AnalysisPage />
+        <ExpenseTable />
       </Layout>
     </>
   );
