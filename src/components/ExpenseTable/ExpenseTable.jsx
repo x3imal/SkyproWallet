@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Button } from './ui/Button/Button.jsx';
-import { Input } from './ui/Input/Input.jsx';
+import { Button } from '../ui/Button/Button.jsx';
+import { Input } from '../ui/Input/Input.jsx';
 
 export const TableItem = styled.div`
     width: 100%;
@@ -26,11 +26,11 @@ export const TableInfo = styled.div`
 `;
 
 export const TableContainer = styled.div`
-  width: 789px;
-  height: 618px;
-  border-radius: 30px;
-  box-shadow: 0px 20px 67px -12px rgba(0, 0, 0, 0.13);
-  background: var(--Skyeng b2b / White, rgba(255, 255, 255, 1));
+    width: 789px;
+    height: 618px;
+    border-radius: 30px;
+    background: #ffffff;
+    box-shadow: 0px 20px 67px -12px #00000021;
 `;
 
 export const ContainerHeader = styled.div`
@@ -231,11 +231,11 @@ export const OneExpenseButtons = styled.div`
 `;
 
 export const NewExpense = styled.div`
-  width: 379px;
-  height: 618px;
-  border-radius: 30px;
-  box-shadow: 0px 20px 67px -12px rgba(0, 0, 0, 0.13);
-  background: var(--Skyeng b2b / White, rgba(255, 255, 255, 1));
+    width: 379px;
+    height: 618px;
+    border-radius: 30px;
+    background: #ffffff;
+    box-shadow: 0px 20px 67px -12px #00000021;
 `;
 
 export const NewExpenseConainer = styled.div`
@@ -541,14 +541,14 @@ export const ExpenseTable = () => {
                   <p>Фильтровать по:</p>
                   <p></p>
                   <p>
-                    <img src="public/FilterArrow.svg" alt="Arrow" />
+                    <img src="../../../public/FilterArrow.svg" alt="Arrow" />
                   </p>
                 </FilterBatton>
                 <FilterBatton onClick={sortExpense}>
                   <p>Сортировать по:</p>
                   <p></p>
                   <p>
-                    <img src="public/FilterArrow.svg" alt="Arrow" />
+                    <img src="../../../public/FilterArrow.svg" alt="Arrow" />
                   </p>
                 </FilterBatton>
               </FilterBattons>
@@ -557,37 +557,37 @@ export const ExpenseTable = () => {
                   <ExpenseCategories>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/FoodIcon.svg" alt="FoodIcon" />
+                        <img src="../../../public/FoodIcon.svg" alt="FoodIcon" />
                         <p>Еда</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/TransportIcon.svg" alt="TransportIcon" />
+                        <img src="../../../public/TransportIcon.svg" alt="TransportIcon" />
                         <p>Транспорт</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/HouseIcon.svg" alt="HouseIcon" />
+                        <img src="../../../public/HouseIcon.svg" alt="HouseIcon" />
                         <p>Жилье</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/GameIcon.svg" alt="GameIcon" />
+                        <img src="../../../public/GameIcon.svg" alt="GameIcon" />
                         <p>Развлечения</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/EducationIcon.svg" alt="EducationIcon" />
+                        <img src="../../../public/EducationIcon.svg" alt="EducationIcon" />
                         <p>Образование</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/OtherIcon.svg" alt="OtherIcon" />
+                        <img src="../../../public/OtherIcon.svg" alt="OtherIcon" />
                         <p>Другое</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
@@ -636,8 +636,8 @@ export const ExpenseTable = () => {
                     <p>{expense.sum} Р</p>
                   </ExpenseSumm>
                   <OneExpenseButtons>
-                    <img onClick={editExpense} src="public/EditSign.svg" alt="EditSign" />
-                    <img src="public/DeleteSign.svg" alt="DeleteSign" />
+                    <img onClick={editExpense} src="../../../public/EditSign.svg" alt="EditSign" />
+                    <img src="../../../public/DeleteSign.svg" alt="DeleteSign" />
                   </OneExpenseButtons>
                 </OneExpense>
               ))}
@@ -663,37 +663,37 @@ export const ExpenseTable = () => {
                   <ExpenseCategories>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/FoodIcon.svg" alt="FoodIcon" />
+                        <img src="../../../public/FoodIcon.svg" alt="FoodIcon" />
                         <p>Еда</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/TransportIcon.svg" alt="TransportIcon" />
+                        <img src="../../../public/TransportIcon.svg" alt="TransportIcon" />
                         <p>Транспорт</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/HouseIcon.svg" alt="HouseIcon" />
+                        <img src="../../../public/HouseIcon.svg" alt="HouseIcon" />
                         <p>Жилье</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/GameIcon.svg" alt="GameIcon" />
+                        <img src="../../../public/GameIcon.svg" alt="GameIcon" />
                         <p>Развлечения</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/EducationIcon.svg" alt="EducationIcon" />
+                        <img src="../../../public/EducationIcon.svg" alt="EducationIcon" />
                         <p>Образование</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/OtherIcon.svg" alt="OtherIcon" />
+                        <img src="../../../public/OtherIcon.svg" alt="OtherIcon" />
                         <p>Другое</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
@@ -742,37 +742,37 @@ export const ExpenseTable = () => {
                   <ExpenseCategories>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/FoodIcon.svg" alt="FoodIcon" />
+                        <img src="../../../public/FoodIcon.svg" alt="FoodIcon" />
                         <p>Еда</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/TransportIcon.svg" alt="TransportIcon" />
+                        <img src="../../../public/TransportIcon.svg" alt="TransportIcon" />
                         <p>Транспорт</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/HouseIcon.svg" alt="HouseIcon" />
+                        <img src="../../../public/HouseIcon.svg" alt="HouseIcon" />
                         <p>Жилье</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/GameIcon.svg" alt="GameIcon" />
+                        <img src="../../../public/GameIcon.svg" alt="GameIcon" />
                         <p>Развлечения</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/EducationIcon.svg" alt="EducationIcon" />
+                        <img src="../../../public/EducationIcon.svg" alt="EducationIcon" />
                         <p>Образование</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
                     <ExpenseCategoriesButton>
                       <CategoriesButtonContent>
-                        <img src="public/OtherIcon.svg" alt="OtherIcon" />
+                        <img src="../../../public/OtherIcon.svg" alt="OtherIcon" />
                         <p>Другое</p>
                       </CategoriesButtonContent>
                     </ExpenseCategoriesButton>
