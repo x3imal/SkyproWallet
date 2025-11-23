@@ -3,9 +3,12 @@ import styled from "styled-components";
 import { Input } from "../ui/Input/Input.jsx";
 import { Button } from "../ui/Button/Button.jsx";
 
+// ======================== Стили модалки ========================
+
+// Полупрозрачный фон, закрывающий весь экран
 const Overlay = styled.div`
     position: fixed;
-    inset: 0;
+    inset: 0;        
     width: 100vw;
     height: 100vh;
     background: rgba(15, 23, 42, 0.35);
@@ -15,13 +18,13 @@ const Overlay = styled.div`
     z-index: 999;
 `;
 
+// Белая карточка с формой
 const Card = styled.div`
     width: 379px;
-    height: 334px;
+    min-height: 334px;
     border-radius: 30px;
     background: #ffffff;
     box-shadow: 0px 20px 67px -12px #00000021;
-
     padding: 32px;
     display: flex;
     flex-direction: column;
@@ -29,15 +32,17 @@ const Card = styled.div`
     align-items: center;
 `;
 
+// Заголовок «Вход» / «Регистрация»
 const Title = styled.h2`
-    font-family: "Montserrat", sans-serif;
     font-weight: 700;
     font-size: 24px;
     line-height: 100%;
     text-align: center;
     color: #111827;
+    margin: 0;
 `;
 
+// Форма (можно отправлять по Enter)
 const Form = styled.form`
     width: 100%;
     display: flex;
@@ -46,6 +51,7 @@ const Form = styled.form`
     align-items: center;
 `;
 
+// Футер с текстом «Уже есть аккаунт?» и ссылкой
 const Footer = styled.div`
     width: 100%;
     display: flex;
@@ -55,24 +61,23 @@ const Footer = styled.div`
 `;
 
 const HelperText = styled.p`
-    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-size: 12px;
-    line-height: 100%;
+    line-height: 150%;
     text-align: center;
     color: #9ca3af;
+    margin: 0;
 `;
 
+// Ссылка-подсказка для переключения между входом и регистрацией
 const LinkText = styled.button`
+    font-family: "Montserrat", sans-serif;
     border: none;
     background: transparent;
     cursor: pointer;
-
-    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-size: 12px;
-    line-height: 100%;
-    text-align: center;
+    line-height: 150%;
     text-decoration: underline;
     color: #9ca3af;
 
@@ -81,75 +86,88 @@ const LinkText = styled.button`
     }
 `;
 
-export const AuthModal = ({ mode = "login", onClose, onModeChange }) => {
-  const isLogin = mode === "login";
+// ======================== Компонент модалки ========================
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+export const AuthModal = ({ mode = "login", onModeChange, onSubmit, onClose }) => {
+    const isLogin = mode === "login"; // текущий режим: вход или регистрация
 
-  const toggleMode = () => {
-    if (onModeChange) {
-      onModeChange(isLogin ? "register" : "login");
-    }
-  };
+    // Обработчик отправки формы
+    const handleSubmit = (e) => {
+        e.preventDefault(); // отменяем стандартную отправку формы (перезагрузку страницы)
 
-  return (
-    <Overlay onClick={onClose}>
-      <Card onClick={(e) => e.stopPropagation()}>
-        <Title>{isLogin ? "Вход" : "Регистрация"}</Title>
+        if (!onSubmit) return;
 
-        <Form onSubmit={handleSubmit}>
-          {!isLogin && (
-            <Input type="text" name="name" placeholder="Имя" autoComplete="name" />
-          )}
+        const formData = new FormData(e.target);
 
-          <Input
-            type="text"
-            name="login"
-            placeholder="Логин"
-            autoComplete="username"
-          />
+        // Собираем данные из полей
+        const payload = {
+            mode, // "login" или "register" — важно для бэкенда и Layout
+            name: (formData.get("name") || "").trim(),
+            email: (formData.get("email") || "").trim(),
+            password: formData.get("password") || "",
+        };
 
-          {!isLogin && (
-            <Input
-              type="email"
-              name="email"
-              placeholder="Email"
-              autoComplete="email"
-            />
-          )}
+        // Передаём данные наверх (в Layout → AuthContext)
+        onSubmit(payload);
+    };
 
-          <Input
-            type="password"
-            name="password"
-            placeholder="Пароль"
-            autoComplete={isLogin ? "current-password" : "new-password"}
-          />
+    // Переключение между режимами «Вход» ↔ «Регистрация»
+    const toggleMode = () => {
+        if (onModeChange) {
+            onModeChange(isLogin ? "register" : "login");
+        }
+    };
 
-          {!isLogin && (
-            <Input
-              type="password"
-              name="passwordConfirm"
-              placeholder="Повторите пароль"
-              autoComplete="new-password"
-            />
-          )}
+    return (
+        <Overlay> {/* клик по фону → закрываем модалку */}
+            {/* Карточка модалки — клик по ней НЕ должен закрывать модалку */}
+            <Card onClick={(e) => e.stopPropagation()}>
+                <Title>{isLogin ? "Вход" : "Регистрация"}</Title>
 
-          <Button type="submit">
-            {isLogin ? "Войти" : "Зарегистрироваться"}
-          </Button>
-        </Form>
+                {/* Форма */}
+                <Form onSubmit={handleSubmit}>
+                    {/* Поле имени — только при регистрации */}
+                    {!isLogin && (
+                        <Input
+                            type="text"
+                            name="name"
+                            placeholder="Имя"
+                            autoComplete="name"
+                        />
+                    )}
 
-        <Footer>
-          <HelperText>
-            {isLogin ? "Нужно зарегистрироваться?" : "Уже есть аккаунт?"}
-          </HelperText>
-          <LinkText type="button" onClick={toggleMode}>
-            {isLogin ? "Регистрируйтесь здесь" : "Войти"}
-          </LinkText>
-        </Footer>
-      </Card>
-    </Overlay>
-  );
+                    {/* Email — всегда (у тебя используется как логин) */}
+                    <Input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        autoComplete="email"
+                    />
+
+                    {/* Пароль */}
+                    <Input
+                        type="password"
+                        name="password"
+                        placeholder="Пароль"
+                        autoComplete={isLogin ? "current-password" : "new-password"}
+                    />
+
+                    {/* Кнопка отправки */}
+                    <Button type="submit">
+                        {isLogin ? "Войти" : "Зарегистрироваться"}
+                    </Button>
+                </Form>
+
+                {/* Футер с переключателем режима */}
+                <Footer>
+                    <HelperText>
+                        {isLogin ? "Нужно зарегистрироваться?" : "Уже есть аккаунт?"}
+                    </HelperText>
+                    <LinkText type="button" onClick={toggleMode}>
+                        {isLogin ? "Регистрация" : "Войти"}
+                    </LinkText>
+                </Footer>
+            </Card>
+        </Overlay>
+    );
 };
