@@ -164,7 +164,7 @@ export const AuthModal = ({ mode = "login", onModeChange, onSubmit, onClose }) =
                         {isLogin ? "Нужно зарегистрироваться?" : "Уже есть аккаунт?"}
                     </HelperText>
                     <LinkText type="button" onClick={toggleMode}>
-                        {isLogin ? "Регистрация" : "Войти"}
+                        {isLogin ? "Регистрируйтесь здесь" : "Войдите здесь"}
                     </LinkText>
                 </Footer>
             </Card>
