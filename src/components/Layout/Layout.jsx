@@ -31,7 +31,6 @@ const HeaderInner = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 120px;
 `;
 
 const LogoWrapper = styled.div`
@@ -79,7 +78,6 @@ const Main = styled.main`
 const MainInner = styled.div`
     width: 100%;
     max-width: 1440px;
-    padding: 0 120px;
 `;
 
 // ======================== Основной компонент ========================
