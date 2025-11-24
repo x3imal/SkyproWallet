@@ -8,11 +8,6 @@ import { useAuth } from "../../contexts/AuthContext.jsx";
 // ======================== Стили ========================
 
 const Page = styled.div`
-    width: 100%;
-    min-height: 100vh;
-    background: #f4f5f6;
-    display: flex;
-    flex-direction: column;
 `;
 
 const Header = styled.header`

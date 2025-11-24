@@ -5,7 +5,7 @@ import { Input } from '../ui/Input/Input.jsx';
 
 export const TableItem = styled.div`
     width: 100%;
-    padding: 32px 118px 0;
+    padding: 36px 118px 0;
     box-sizing: border-box;
 `;
 

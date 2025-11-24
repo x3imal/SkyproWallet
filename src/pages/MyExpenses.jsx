@@ -9,7 +9,7 @@ const Wrapper = styled.div`
     gap: 24px;
 `;
 
-export const MyExpenses = () => {
+export const MyExpensesPage = () => {
     return (
         <Wrapper>
             <ExpenseTable />
