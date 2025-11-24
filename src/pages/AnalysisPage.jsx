@@ -31,7 +31,7 @@ export const AnalysisPage = () => {
     return (
         <Wrapper>
             <PageTitle>
-                <h2>Анализ расходов</h2>
+                <p>Анализ расходов</p>
             </PageTitle>
 
             <Content>

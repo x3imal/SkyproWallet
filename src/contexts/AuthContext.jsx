@@ -93,7 +93,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider
             value={{
                 user,                    // объект пользователя или null
-                isAuth: !!user,          // булево: авторизован ли (удобно для условий)
+                isAuth: !!user,          // булевое: авторизован ли (удобно для условий)
                 isAuthModalOpen,         // открыта ли модалка
                 setIsAuthModalOpen,      // открыть/закрыть модалку вручную
                 mode,                    // "login" | "register"

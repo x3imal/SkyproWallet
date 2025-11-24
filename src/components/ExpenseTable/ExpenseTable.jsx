@@ -353,8 +353,6 @@ export const ExpenseTable = () => {
 
   function MyComponent() {
     const isMobile = useIsMobile();
-
-    console.log(isMobile ? 'Мобильная версия' : 'Десктопная версия');
   }
 
   MyComponent();
