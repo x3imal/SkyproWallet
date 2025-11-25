@@ -94,6 +94,7 @@ export const Layout = ({ children }) => {
         login,             // функция входа
         register,          // функция регистрации
         logout,            // функция выхода (должна ставить isAuth = false)
+        isAuth,
     } = useAuth();
 
     const handleAuthSubmit = async (data) => {
@@ -125,19 +126,6 @@ export const Layout = ({ children }) => {
         }
     };
 
-    if (isAuthModalOpen) {
-        return (
-            <Page>
-                <AuthModal
-                    mode={mode}
-                    onModeChange={setMode}
-                    onClose={() => setIsAuthModalOpen(false)}
-                    onSubmit={handleAuthSubmit}
-                />
-            </Page>
-        );
-    }
-
     return (
         <Page>
             <Header>
@@ -146,6 +134,7 @@ export const Layout = ({ children }) => {
                         <img src={logo} alt="Skypro Logo" />
                     </LogoWrapper>
 
+                    {isAuth && (
                     <Nav>
                         <NavLink
                             onClick={() => navigate("/expenses")}
@@ -161,14 +150,19 @@ export const Layout = ({ children }) => {
                             Анализ расходов
                         </NavLink>
                     </Nav>
+                        )}
 
-                    <ExitButton onClick={logout}>Выйти</ExitButton>
+                    {isAuth && (
+                        <ExitButton onClick={logout}>Выйти</ExitButton>
+                    )}
                 </HeaderInner>
             </Header>
 
-            <Main>
-                <MainInner>{children}</MainInner>
-            </Main>
+            {isAuth && (
+                <Main>
+                    <MainInner>{children}</MainInner>
+                </Main>
+            )}
 
             {isAuthModalOpen && (
                 <AuthModal
