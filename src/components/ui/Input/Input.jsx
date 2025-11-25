@@ -18,7 +18,6 @@ export const Input = styled.input`
   color: #000000;
 
   &::placeholder {
-    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-size: 12px;
     line-height: 100%;

@@ -5,10 +5,9 @@ import { Button } from "../ui/Button/Button.jsx";
 
 const Overlay = styled.div`
     position: fixed;
-    inset: 0;
+    inset: 0;        
     width: 100vw;
     height: 100vh;
-    background: rgba(15, 23, 42, 0.35);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,11 +16,10 @@ const Overlay = styled.div`
 
 const Card = styled.div`
     width: 379px;
-    height: 334px;
+    min-height: 334px;
     border-radius: 30px;
     background: #ffffff;
     box-shadow: 0px 20px 67px -12px #00000021;
-
     padding: 32px;
     display: flex;
     flex-direction: column;
@@ -30,12 +28,12 @@ const Card = styled.div`
 `;
 
 const Title = styled.h2`
-    font-family: "Montserrat", sans-serif;
     font-weight: 700;
     font-size: 24px;
     line-height: 100%;
     text-align: center;
     color: #111827;
+    margin: 0;
 `;
 
 const Form = styled.form`
@@ -55,24 +53,22 @@ const Footer = styled.div`
 `;
 
 const HelperText = styled.p`
-    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-size: 12px;
-    line-height: 100%;
+    line-height: 150%;
     text-align: center;
     color: #9ca3af;
+    margin: 0;
 `;
 
 const LinkText = styled.button`
+    font-family: "Montserrat", sans-serif;
     border: none;
     background: transparent;
     cursor: pointer;
-
-    font-family: "Montserrat", sans-serif;
     font-weight: 400;
     font-size: 12px;
-    line-height: 100%;
-    text-align: center;
+    line-height: 150%;
     text-decoration: underline;
     color: #9ca3af;
 
@@ -81,75 +77,77 @@ const LinkText = styled.button`
     }
 `;
 
-export const AuthModal = ({ mode = "login", onClose, onModeChange }) => {
-  const isLogin = mode === "login";
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+export const AuthModal = ({ mode = "login", onModeChange, onSubmit }) => {
+    const isLogin = mode === "login";
 
-  const toggleMode = () => {
-    if (onModeChange) {
-      onModeChange(isLogin ? "register" : "login");
-    }
-  };
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-  return (
-    <Overlay onClick={onClose}>
-      <Card onClick={(e) => e.stopPropagation()}>
-        <Title>{isLogin ? "Вход" : "Регистрация"}</Title>
+        if (!onSubmit) return;
 
-        <Form onSubmit={handleSubmit}>
-          {!isLogin && (
-            <Input type="text" name="name" placeholder="Имя" autoComplete="name" />
-          )}
+        const formData = new FormData(e.target);
 
-          <Input
-            type="text"
-            name="login"
-            placeholder="Логин"
-            autoComplete="username"
-          />
+        const payload = {
+            mode,
+            name: (formData.get("name") || "").trim(),
+            email: (formData.get("email") || "").trim(),
+            password: formData.get("password") || "",
+        };
 
-          {!isLogin && (
-            <Input
-              type="email"
-              name="email"
-              placeholder="Email"
-              autoComplete="email"
-            />
-          )}
+        onSubmit(payload);
+    };
 
-          <Input
-            type="password"
-            name="password"
-            placeholder="Пароль"
-            autoComplete={isLogin ? "current-password" : "new-password"}
-          />
+    const toggleMode = () => {
+        if (onModeChange) {
+            onModeChange(isLogin ? "register" : "login");
+        }
+    };
 
-          {!isLogin && (
-            <Input
-              type="password"
-              name="passwordConfirm"
-              placeholder="Повторите пароль"
-              autoComplete="new-password"
-            />
-          )}
+    return (
+        <Overlay>
+            <Card onClick={(e) => e.stopPropagation()}>
+                <Title>{isLogin ? "Вход" : "Регистрация"}</Title>
 
-          <Button type="submit">
-            {isLogin ? "Войти" : "Зарегистрироваться"}
-          </Button>
-        </Form>
+                {/* Форма */}
+                <Form onSubmit={handleSubmit}>
+                    {!isLogin && (
+                        <Input
+                            type="text"
+                            name="name"
+                            placeholder="Имя"
+                            autoComplete="name"
+                        />
+                    )}
 
-        <Footer>
-          <HelperText>
-            {isLogin ? "Нужно зарегистрироваться?" : "Уже есть аккаунт?"}
-          </HelperText>
-          <LinkText type="button" onClick={toggleMode}>
-            {isLogin ? "Регистрируйтесь здесь" : "Войти"}
-          </LinkText>
-        </Footer>
-      </Card>
-    </Overlay>
-  );
+                    <Input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        autoComplete="email"
+                    />
+
+                    <Input
+                        type="password"
+                        name="password"
+                        placeholder="Пароль"
+                        autoComplete={isLogin ? "current-password" : "new-password"}
+                    />
+
+                    <Button type="submit">
+                        {isLogin ? "Войти" : "Зарегистрироваться"}
+                    </Button>
+                </Form>
+
+                <Footer>
+                    <HelperText>
+                        {isLogin ? "Нужно зарегистрироваться?" : "Уже есть аккаунт?"}
+                    </HelperText>
+                    <LinkText type="button" onClick={toggleMode}>
+                        {isLogin ? "Регистрируйтесь здесь" : "Войдите здесь"}
+                    </LinkText>
+                </Footer>
+            </Card>
+        </Overlay>
+    );
 };
