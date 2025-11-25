@@ -11,13 +11,12 @@ const Wrapper = styled.div`
 
 const Content = styled.div`
     display: flex;
-    justify-content: center;
     gap: 32px;
 `;
 
 const PageTitle = styled.h2`
     margin-top: 0;
-    padding: 32px 118px 0;
+    padding-top: 32px;
 
     h2 {
         margin: 0;

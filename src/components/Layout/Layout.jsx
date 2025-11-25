@@ -73,11 +73,11 @@ const Main = styled.main`
     width: 100%;
     display: flex;
     justify-content: center;
+    padding: 0px calc(50% - 601px)
 `;
 
 const MainInner = styled.div`
     width: 100%;
-    max-width: 1440px;
 `;
 
 // ======================== Основной компонент ========================
