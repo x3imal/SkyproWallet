@@ -83,10 +83,9 @@ const MainInner = styled.div`
 // ======================== Основной компонент ========================
 
 export const Layout = ({ children }) => {
-    const location = useLocation();   // текущий путь (для подсветки активной ссылки)
-    const navigate = useNavigate();   // программный переход по роутам
+    const location = useLocation();
+    const navigate = useNavigate();
 
-    // Все методы и состояния берём из AuthContext
     const {
         isAuthModalOpen,   // открыта ли модалка авторизации
         mode,              // "login" или "register"
@@ -97,52 +96,48 @@ export const Layout = ({ children }) => {
         logout,            // функция выхода (должна ставить isAuth = false)
     } = useAuth();
 
-    // Обработчик отправки формы (и логина, и регистрации)
-    const handleAuthSubmit = (data) => {
+    const handleAuthSubmit = async (data) => {
         if (data.mode === "register") {
-            // Регистрация — проверяем обязательные поля
-            if (!data.email || !data.password) {
-                alert("Email и пароль обязательны для регистрации");
+            if (!data.email || !data.password || !data.name) {
+                alert("Имя, email и пароль обязательны для регистрации");
                 return;
             }
-            register(data); // вызываем функцию регистрации из контекста
+            const result = await register(data);
+
+            if (!result.ok) {
+                alert(result.message || "Ошибка регистрации");
+            }
+
             return;
         }
 
         if (data.mode === "login") {
-            // Логин
-            const result = login(data);
-
-            // Если login вернул объект с ошибкой — показываем алерт
-            if (!result.ok) {
-                if (result.reason === "no_user") {
-                    alert("Пользователь не найден. Сначала зарегистрируйтесь.");
-                } else if (result.reason === "invalid_credentials") {
-                    alert("Неверный логин или пароль");
-                } else {
-                    alert("Ошибка авторизации");
-                }
+            if (!data.email || !data.password) {
+                alert("Введите email и пароль");
+                return;
             }
-            // Если всё ок — модалка закроется автоматически в AuthContext
+
+            const result = await login(data);
+
+            if (!result.ok) {
+                alert(result.message || "Неверный логин или пароль");
+            }
         }
     };
 
-    // ВАЖНО: если модалка открыта — показываем ТОЛЬКО её на весь экран
-    // Это нужно, чтобы при первом входе пользователь не видел контент без авторизации
     if (isAuthModalOpen) {
         return (
             <Page>
                 <AuthModal
                     mode={mode}
                     onModeChange={setMode}
-                    onClose={() => setIsAuthModalOpen(false)} // закрываем модалку
-                    onSubmit={handleAuthSubmit}               // отправка формы
+                    onClose={() => setIsAuthModalOpen(false)}
+                    onSubmit={handleAuthSubmit}
                 />
             </Page>
         );
     }
 
-    // Обычная раскладка, когда пользователь уже авторизован или модалка закрыта
     return (
         <Page>
             <Header>
@@ -151,7 +146,6 @@ export const Layout = ({ children }) => {
                         <img src={logo} alt="Skypro Logo" />
                     </LogoWrapper>
 
-                    {/* Навигация по разделам */}
                     <Nav>
                         <NavLink
                             onClick={() => navigate("/expenses")}
@@ -168,18 +162,14 @@ export const Layout = ({ children }) => {
                         </NavLink>
                     </Nav>
 
-                    {/* Кнопка выхода — видна только авторизованным */}
                     <ExitButton onClick={logout}>Выйти</ExitButton>
                 </HeaderInner>
             </Header>
 
-            {/* Основной контент страницы (ExpensesPage, AnalysisPage и т.д.) */}
             <Main>
                 <MainInner>{children}</MainInner>
             </Main>
 
-            {/* Модалка авторизации (если вдруг понадобится открыть поверх контента) */}
-            {/* Сейчас она открывается только через isAuthModalOpen в AuthContext */}
             {isAuthModalOpen && (
                 <AuthModal
                     mode={mode}
