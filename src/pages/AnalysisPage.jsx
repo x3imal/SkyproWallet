@@ -14,7 +14,7 @@ const Content = styled.div`
     gap: 32px;
 `;
 
-const PageTitle = styled.h2`
+const PageTitle = styled.div`
     margin-top: 0;
     padding-top: 32px;
 

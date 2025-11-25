@@ -28,6 +28,7 @@ export const TransactionProvider = ({ children }) => {
     <TransactionContext.Provider
       value={{
         expenses,
+        getTransactions,
       }}
     >
       {children}

@@ -13,7 +13,7 @@ export async function fetchTransactions({ token }) {
         Authorization: 'Bearer ' + token,
       },
     });
-    return response.data.transactions;
+    return response.data;
   } catch (error) {
     const message = error?.response?.data?.error || error.message || 'Ошибка загрузки транзакций';
     throw new Error(message);
@@ -21,15 +21,19 @@ export async function fetchTransactions({ token }) {
 }
 
 export async function postExpense({ token, expense }) {
+  if (!token) {
+    throw new Error('Отсутствует токен авторизации');
+  }
   try {
     const data = await axios.post(API_URL, expense, {
       headers: {
-        Authorization: 'Bearer' + token,
+        Authorization: 'Bearer ' + token,
         'Content-Type': '',
       },
     });
     return data.data.expenses;
   } catch (error) {
+    console.log(error.response)
     const message = error?.response?.data?.error || error.message || 'Ошибка добавления транзакции';
     throw new Error(message);
   }
