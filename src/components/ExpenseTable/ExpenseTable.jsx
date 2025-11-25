@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '../ui/Button/Button.jsx';
 import { Input } from '../ui/Input/Input.jsx';
+import { TransactionContext } from '../../contexts/TransactionContext.js';
 
 export const TableItem = styled.div`
     width: 100%;
-    padding: 32px 118px 0;
+    padding: 32px 0 0;
     box-sizing: border-box;
 `;
 
@@ -330,177 +331,179 @@ export const ExpenseTable = () => {
 
   const MOBILE_BREAKPOINT = 376;
 
-  function useIsMobile() {
-    const [isMobile, setIsMobile] = useState(undefined);
+  // function useIsMobile() {
+  //   const [isMobile, setIsMobile] = useState(undefined);
 
-    useEffect(() => {
-      const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+  //   useEffect(() => {
+  //     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
 
-      const onChange = () => {
-        setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-      };
+  //     const onChange = () => {
+  //       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+  //     };
 
-      mql.addEventListener('change', onChange);
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+  //     mql.addEventListener('change', onChange);
+  //     setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
 
-      return () => {
-        mql.removeEventListener('change', onChange);
-      };
-    }, []);
+  //     return () => {
+  //       mql.removeEventListener('change', onChange);
+  //     };
+  //   }, []);
 
-    return !!isMobile;
-  }
+  //   return !!isMobile;
+  // }
 
-  function MyComponent() {
-    const isMobile = useIsMobile();
+  // function MyComponent() {
+  //   const isMobile = useIsMobile();
 
-    console.log(isMobile ? 'Мобильная версия' : 'Десктопная версия');
-  }
+  //   console.log(isMobile ? 'Мобильная версия' : 'Десктопная версия');
+  // }
 
-  MyComponent();
+  // MyComponent();
 
-  const expenses = [
-    {
-      number: 1,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 2,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 3,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 4,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 5,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 6,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 7,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 8,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 9,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 10,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 11,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 12,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 13,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 14,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 15,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 16,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 17,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 18,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 19,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 20,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-  ];
+  const {expenses} = useContext(TransactionContext)
+
+  // const expenses = [
+  //   {
+  //     number: 1,
+  //     description: 'Лукойл',
+  //     category: 'Транспорт',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 2,
+  //     description: 'Перекрёсток',
+  //     category: 'Еда',
+  //     date: '29.06.2025',
+  //     sum: 2360,
+  //   },
+  //   {
+  //     number: 3,
+  //     description: 'Бильярд',
+  //     category: 'Развлечения',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 4,
+  //     description: 'Лукойл',
+  //     category: 'Транспорт',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 5,
+  //     description: 'Перекрёсток',
+  //     category: 'Еда',
+  //     date: '29.06.2025',
+  //     sum: 2360,
+  //   },
+  //   {
+  //     number: 6,
+  //     description: 'Бильярд',
+  //     category: 'Развлечения',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 7,
+  //     description: 'Лукойл',
+  //     category: 'Транспорт',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 8,
+  //     description: 'Перекрёсток',
+  //     category: 'Еда',
+  //     date: '29.06.2025',
+  //     sum: 2360,
+  //   },
+  //   {
+  //     number: 9,
+  //     description: 'Бильярд',
+  //     category: 'Развлечения',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 10,
+  //     description: 'Лукойл',
+  //     category: 'Транспорт',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 11,
+  //     description: 'Перекрёсток',
+  //     category: 'Еда',
+  //     date: '29.06.2025',
+  //     sum: 2360,
+  //   },
+  //   {
+  //     number: 12,
+  //     description: 'Бильярд',
+  //     category: 'Развлечения',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 13,
+  //     description: 'Лукойл',
+  //     category: 'Транспорт',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 14,
+  //     description: 'Перекрёсток',
+  //     category: 'Еда',
+  //     date: '29.06.2025',
+  //     sum: 2360,
+  //   },
+  //   {
+  //     number: 15,
+  //     description: 'Бильярд',
+  //     category: 'Развлечения',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 16,
+  //     description: 'Лукойл',
+  //     category: 'Транспорт',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 17,
+  //     description: 'Перекрёсток',
+  //     category: 'Еда',
+  //     date: '29.06.2025',
+  //     sum: 2360,
+  //   },
+  //   {
+  //     number: 18,
+  //     description: 'Бильярд',
+  //     category: 'Развлечения',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  //   {
+  //     number: 19,
+  //     description: 'Перекрёсток',
+  //     category: 'Еда',
+  //     date: '29.06.2025',
+  //     sum: 2360,
+  //   },
+  //   {
+  //     number: 20,
+  //     description: 'Бильярд',
+  //     category: 'Развлечения',
+  //     date: '29.06.2025',
+  //     sum: 1000,
+  //   },
+  // ];
 
   const editExpense = () => {
     if (isEditExpense) {
