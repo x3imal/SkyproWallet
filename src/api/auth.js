@@ -13,7 +13,6 @@ export async function signIn({ login, password }) {
                 },
             }
         );
-
         return response.data.user;
     } catch (error) {
         const message = error?.response?.data?.error || "Ошибка авторизации";

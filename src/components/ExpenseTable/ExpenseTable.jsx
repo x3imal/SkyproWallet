@@ -1,24 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '../ui/Button/Button.jsx';
 import { Input } from '../ui/Input/Input.jsx';
+import { TransactionContext } from '../../contexts/TransactionContext.js';
+import { deleteExpense, postExpense } from '..//../api/transactions.js';
+import { useAuth } from '../../contexts/AuthContext.jsx';
 
 export const TableItem = styled.div`
-    width: 100%;
-    padding: 32px 118px 0;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 32px 0 0;
+  box-sizing: border-box;
 `;
 
 export const TableTitle = styled.div`
-    margin-top: 0;
-    margin-bottom: 32px;
+  margin-top: 0;
+  margin-bottom: 32px;
 
-    h2 {
-        margin: 0;
-        font-size: 32px;
-        font-weight: 700;
-        color: #000000;
-    }
+  h2 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    color: #000000;
+  }
 `;
 export const TableInfo = styled.div`
   display: flex;
@@ -26,11 +29,11 @@ export const TableInfo = styled.div`
 `;
 
 export const TableContainer = styled.div`
-    width: 789px;
-    height: 618px;
-    border-radius: 30px;
-    background: #ffffff;
-    box-shadow: 0px 20px 67px -12px #00000021;
+  width: 789px;
+  height: 618px;
+  border-radius: 30px;
+  background: #ffffff;
+  box-shadow: 0px 20px 67px -12px #00000021;
 `;
 
 export const ContainerHeader = styled.div`
@@ -231,11 +234,11 @@ export const OneExpenseButtons = styled.div`
 `;
 
 export const NewExpense = styled.div`
-    width: 379px;
-    height: 618px;
-    border-radius: 30px;
-    background: #ffffff;
-    box-shadow: 0px 20px 67px -12px #00000021;
+  width: 379px;
+  height: 618px;
+  border-radius: 30px;
+  background: #ffffff;
+  box-shadow: 0px 20px 67px -12px #00000021;
 `;
 
 export const NewExpenseConainer = styled.div`
@@ -267,7 +270,7 @@ export const NewExpenseInfo = styled.div`
 `;
 
 const NewExpenseButton = styled(Button)`
-  margin-top: 24px;
+  margin-top: ${({ $isError }) => ($isError ? '0px' : '24px')};
 `;
 
 export const NewExpenseCategory = styled.div`
@@ -293,6 +296,7 @@ export const ExpenseCategoriesButton = styled.button`
   padding: 8px 20px;
   border: none;
   border-radius: 30px;
+  cursor: pointer;
 
   &:focus {
     outline: none;
@@ -320,185 +324,91 @@ export const CategoriesButtonContent = styled.div`
   }
 `;
 
-
+export const Error = styled.p`
+  color: ${(props) => props.theme.error || '#ff6666'};
+  text-align: center;
+  font-size: 10px;
+  padding-top: 4px;
+  height: 20px;
+`;
 
 export const ExpenseTable = () => {
   const titles = ['Описание', 'Категория', 'Дата', 'Сумма'];
   const [isEditExpense, setIsEditExpense] = useState(false);
   const [isSort, setIsSort] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
+  const [isError, setIsError] = useState('');
 
   const MOBILE_BREAKPOINT = 376;
 
-  function useIsMobile() {
-    const [isMobile, setIsMobile] = useState(undefined);
+  // function useIsMobile() {
+  //   const [isMobile, setIsMobile] = useState(undefined);
 
-    useEffect(() => {
-      const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
+  //   useEffect(() => {
+  //     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
 
-      const onChange = () => {
-        setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-      };
+  //     const onChange = () => {
+  //       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+  //     };
 
-      mql.addEventListener('change', onChange);
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+  //     mql.addEventListener('change', onChange);
+  //     setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
 
-      return () => {
-        mql.removeEventListener('change', onChange);
-      };
-    }, []);
+  //     return () => {
+  //       mql.removeEventListener('change', onChange);
+  //     };
+  //   }, []);
 
-    return !!isMobile;
-  }
+  //   return !!isMobile;
+  // }
 
-  function MyComponent() {
-    const isMobile = useIsMobile();
+  // function MyComponent() {
+  //   const isMobile = useIsMobile();
 
-    console.log(isMobile ? 'Мобильная версия' : 'Десктопная версия');
-  }
+  //   console.log(isMobile ? 'Мобильная версия' : 'Десктопная версия');
+  // }
 
-  MyComponent();
+  // MyComponent();
 
-  const expenses = [
+  const { expenses, getTransactions } = useContext(TransactionContext);
+  const { token } = useAuth();
+
+  const categories = [
     {
-      number: 1,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
+      name: 'Еда',
+      necName: 'food',
+      image: '../../../public/FoodIcon.svg',
+      description: 'FoodIcon',
     },
     {
-      number: 2,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
+      name: 'Транспорт',
+      necName: 'transport',
+      image: '../../../public/TransportIcon.svg',
+      description: 'TransportIcon',
     },
     {
-      number: 3,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
+      name: 'Жилье',
+      necName: 'housing',
+      image: '../../../public/HouseIcon.svg',
+      description: 'HouseIcon',
     },
     {
-      number: 4,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
+      name: 'Развлечения',
+      necName: 'joy',
+      image: '../../../public/GameIcon.svg',
+      description: 'GameIcon',
     },
     {
-      number: 5,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
+      name: 'Образование',
+      necName: 'education',
+      image: '../../../public/EducationIcon.svg',
+      description: 'EducationIcon',
     },
     {
-      number: 6,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 7,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 8,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 9,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 10,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 11,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 12,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 13,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 14,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 15,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 16,
-      description: 'Лукойл',
-      category: 'Транспорт',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 17,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 18,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
-    },
-    {
-      number: 19,
-      description: 'Перекрёсток',
-      category: 'Еда',
-      date: '29.06.2025',
-      sum: 2360,
-    },
-    {
-      number: 20,
-      description: 'Бильярд',
-      category: 'Развлечения',
-      date: '29.06.2025',
-      sum: 1000,
+      name: 'Другое',
+      necName: 'others',
+      image: '../../../public/OtherIcon.svg',
+      description: 'OtherIcon',
     },
   ];
 
@@ -523,6 +433,68 @@ export const ExpenseTable = () => {
       setIsFilter(false);
     } else {
       setIsFilter(true);
+    }
+  };
+
+  const [category, setCategory] = useState('');
+
+  const activeCategory = (selectedCategory) => {
+    setCategory(selectedCategory);
+  };
+
+  const [formData, setFormData] = useState({
+    description: '',
+    summ: '',
+    date: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value.trim(),
+    });
+  };
+
+  const createExpense = async (e) => {
+    e.preventDefault();
+
+    const newExpense = {
+      description: formData.description,
+      sum: Number(formData.summ),
+      category: category,
+      date: formData.date,
+    };
+
+    if (!newExpense.description || !newExpense.sum || !newExpense.category || !newExpense.date) {
+      setIsError('Заполните все поля: описание, категория, дата, сумма');
+      return;
+    }
+
+    if (newExpense.sum < 0) {
+      setIsError('Сумма должна быть положительным числом');
+      return;
+    }
+
+    if (newExpense.description.length < 4) {
+      setIsError('В описании должно быть больше 4 символов');
+      return;
+    }
+
+    try {
+      await postExpense({ token, expense: newExpense });
+      getTransactions();
+    } catch (err) {
+      console.error('Ошибка в создании расхода:', err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteExpense({ token, id });
+      getTransactions();
+    } catch (err) {
+      console.error('Ошибка в удалении расхода:', err);
     }
   };
 
@@ -555,42 +527,16 @@ export const ExpenseTable = () => {
               {isFilter && (
                 <FilterCategory>
                   <ExpenseCategories>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/FoodIcon.svg" alt="FoodIcon" />
-                        <p>Еда</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/TransportIcon.svg" alt="TransportIcon" />
-                        <p>Транспорт</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/HouseIcon.svg" alt="HouseIcon" />
-                        <p>Жилье</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/GameIcon.svg" alt="GameIcon" />
-                        <p>Развлечения</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/EducationIcon.svg" alt="EducationIcon" />
-                        <p>Образование</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/OtherIcon.svg" alt="OtherIcon" />
-                        <p>Другое</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
+                    {categories.map((category) => {
+                      return (
+                        <ExpenseCategoriesButton key={category.name}>
+                          <CategoriesButtonContent>
+                            <img src={category.image} alt={category.description} />
+                            <p>{category.name}</p>
+                          </CategoriesButtonContent>
+                        </ExpenseCategoriesButton>
+                      );
+                    })}
                   </ExpenseCategories>
                 </FilterCategory>
               )}
@@ -622,22 +568,40 @@ export const ExpenseTable = () => {
             <ContainerLine />
             <ContainerData>
               {expenses.map((expense) => (
-                <OneExpense key={expense.number}>
+                <OneExpense key={expense._id}>
                   <ExpenseDiscription>
                     <p>{expense.description}</p>
                   </ExpenseDiscription>
                   <ExpenseCategory>
-                    <p>{expense.category}</p>
+                    <p>
+                      {expense.category === 'food'
+                        ? 'Еда'
+                        : expense.category === 'transport'
+                          ? 'Транспорт'
+                          : expense.category === 'housing'
+                            ? 'Жилье'
+                            : expense.category === 'joy'
+                              ? 'Развлечения'
+                              : expense.category === 'education'
+                                ? 'Образование'
+                                : expense.category === 'others'
+                                  ? 'Другое'
+                                  : ''}
+                    </p>
                   </ExpenseCategory>
                   <ExpenseDate>
-                    <p>{expense.date.toLocaleString()}</p>
+                    <p>{new Date(expense.date).toLocaleDateString('ru-RU')}</p>
                   </ExpenseDate>
                   <ExpenseSumm>
                     <p>{expense.sum} Р</p>
                   </ExpenseSumm>
                   <OneExpenseButtons>
                     <img onClick={editExpense} src="../../../public/EditSign.svg" alt="EditSign" />
-                    <img src="../../../public/DeleteSign.svg" alt="DeleteSign" />
+                    <img
+                      onClick={() => handleDelete(expense._id)}
+                      src="../../../public/DeleteSign.svg"
+                      alt="DeleteSign"
+                    />
                   </OneExpenseButtons>
                 </OneExpense>
               ))}
@@ -661,61 +625,25 @@ export const ExpenseTable = () => {
                 <NewExpenseCategory>
                   <h4>Категория</h4>
                   <ExpenseCategories>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/FoodIcon.svg" alt="FoodIcon" />
-                        <p>Еда</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/TransportIcon.svg" alt="TransportIcon" />
-                        <p>Транспорт</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/HouseIcon.svg" alt="HouseIcon" />
-                        <p>Жилье</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/GameIcon.svg" alt="GameIcon" />
-                        <p>Развлечения</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/EducationIcon.svg" alt="EducationIcon" />
-                        <p>Образование</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/OtherIcon.svg" alt="OtherIcon" />
-                        <p>Другое</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
+                    {categories.map((category) => {
+                      return (
+                        <ExpenseCategoriesButton key={category.name}>
+                          <CategoriesButtonContent>
+                            <img src={category.image} alt={category.description} />
+                            <p>{category.name}</p>
+                          </CategoriesButtonContent>
+                        </ExpenseCategoriesButton>
+                      );
+                    })}
                   </ExpenseCategories>
                 </NewExpenseCategory>
                 <NewExpenseInfo>
                   <h4>Дата</h4>
-                  <Input
-                    name="date"
-                    id="textDate"
-                    placeholder="Введите дату"
-                    type="text"
-                  />
+                  <Input name="date" id="textDate" placeholder="Введите дату" type="text" />
                 </NewExpenseInfo>
                 <NewExpenseInfo>
                   <h4>Сумма</h4>
-                  <Input
-                    name="summ"
-                    id="textSumm"
-                    placeholder="Введите сумму"
-                    type="text"
-                  />
+                  <Input name="summ" id="textSumm" placeholder="Введите сумму" type="text" />
                 </NewExpenseInfo>
                 <NewExpenseButton>
                   <p>Сохранить редактирование</p>
@@ -735,47 +663,25 @@ export const ExpenseTable = () => {
                     id="textArea"
                     placeholder="Введите описание"
                     type="text"
+                    onChange={handleChange}
                   />
                 </NewExpenseInfo>
                 <NewExpenseCategory>
                   <h4>Категория</h4>
                   <ExpenseCategories>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/FoodIcon.svg" alt="FoodIcon" />
-                        <p>Еда</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/TransportIcon.svg" alt="TransportIcon" />
-                        <p>Транспорт</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/HouseIcon.svg" alt="HouseIcon" />
-                        <p>Жилье</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/GameIcon.svg" alt="GameIcon" />
-                        <p>Развлечения</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/EducationIcon.svg" alt="EducationIcon" />
-                        <p>Образование</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
-                    <ExpenseCategoriesButton>
-                      <CategoriesButtonContent>
-                        <img src="../../../public/OtherIcon.svg" alt="OtherIcon" />
-                        <p>Другое</p>
-                      </CategoriesButtonContent>
-                    </ExpenseCategoriesButton>
+                    {categories.map((category) => {
+                      return (
+                        <ExpenseCategoriesButton
+                          key={category.necName}
+                          onClick={() => activeCategory(category.necName)}
+                        >
+                          <CategoriesButtonContent>
+                            <img src={category.image} alt={category.description} />
+                            <p>{category.name}</p>
+                          </CategoriesButtonContent>
+                        </ExpenseCategoriesButton>
+                      );
+                    })}
                   </ExpenseCategories>
                 </NewExpenseCategory>
                 <NewExpenseInfo>
@@ -784,7 +690,8 @@ export const ExpenseTable = () => {
                     name="date"
                     id="textDate"
                     placeholder="Введите дату"
-                    type="text"
+                    type="date"
+                    onChange={handleChange}
                   />
                 </NewExpenseInfo>
                 <NewExpenseInfo>
@@ -793,11 +700,13 @@ export const ExpenseTable = () => {
                     name="summ"
                     id="textSumm"
                     placeholder="Введите сумму"
-                    type="text"
+                    type="number"
+                    onChange={handleChange}
                   />
                 </NewExpenseInfo>
-                <NewExpenseButton>
-                  <p>Добвить новый расход</p>
+                {isError && <Error>{isError}</Error>}
+                <NewExpenseButton $isError={isError} onClick={createExpense}>
+                  <p>Добавить новый расход</p>
                 </NewExpenseButton>
               </NewExpenseConainer>
             </NewExpense>

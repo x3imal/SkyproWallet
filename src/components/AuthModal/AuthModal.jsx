@@ -121,7 +121,7 @@ export const AuthModal = ({ mode = "login", onModeChange, onSubmit }) => {
                     )}
 
                     <Input
-                        type="email"
+                        type="text"
                         name="email"
                         placeholder="Email"
                         autoComplete="email"
