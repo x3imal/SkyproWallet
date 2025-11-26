@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Button } from '../ui/Button/Button.jsx';
 import { Input } from '../ui/Input/Input.jsx';
 import { TransactionContext } from '../../contexts/TransactionContext.js';
-import { postExpense } from '..//../api/transactions.js';
+import { deleteExpense, postExpense } from '..//../api/transactions.js';
 import { useAuth } from '../../contexts/AuthContext.jsx';
 
 export const TableItem = styled.div`
@@ -489,6 +489,15 @@ export const ExpenseTable = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      const data = await deleteExpense({ token, id });
+      getTransactions();
+    } catch (err) {
+      console.error('Ошибка в удалении расхода:', err);
+    }
+  };
+
   return (
     <>
       <TableItem>
@@ -574,7 +583,11 @@ export const ExpenseTable = () => {
                   </ExpenseSumm>
                   <OneExpenseButtons>
                     <img onClick={editExpense} src="../../../public/EditSign.svg" alt="EditSign" />
-                    <img src="../../../public/DeleteSign.svg" alt="DeleteSign" />
+                    <img
+                      onClick={() => handleDelete(expense._id)}
+                      src="../../../public/DeleteSign.svg"
+                      alt="DeleteSign"
+                    />
                   </OneExpenseButtons>
                 </OneExpense>
               ))}

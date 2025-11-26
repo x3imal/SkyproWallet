@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://wedev-api.sky.pro/api/transactions';
+const API_URL = 'https://wedev-api.sky.pro/api/transactions/';
 
 export async function fetchTransactions({ token }) {
   if (!token) {
@@ -33,17 +33,20 @@ export async function postExpense({ token, expense }) {
     });
     return data.data.expenses;
   } catch (error) {
-    console.log(error.response)
+    console.log(error.response);
     const message = error?.response?.data?.error || error.message || 'Ошибка добавления транзакции';
     throw new Error(message);
   }
 }
 
 export async function editExpense({ token, id, expense }) {
+  if (!token) {
+    throw new Error('Отсутствует токен авторизации');
+  }
   try {
     const data = await axios.patch(API_URL + id, expense, {
       headers: {
-        Authorization: 'Bearer' + token,
+        Authorization: 'Bearer ' + token,
         'Content-Type': '',
       },
     });
@@ -55,13 +58,16 @@ export async function editExpense({ token, id, expense }) {
 }
 
 export async function deleteExpense({ token, id }) {
+  if (!token) {
+    throw new Error('Отсутствует токен авторизации');
+  }
   try {
     const data = await axios.delete(API_URL + id, {
-      hearers: {
-        Authorization: 'Bearer' + token,
+      headers: {
+        Authorization: 'Bearer ' + token,
         'Content-Type': '',
-      }
-    })
+      },
+    });
     return data.data;
   } catch (error) {
     const message = error?.response?.data?.error || error.message || 'Ошибка удаления транзакции';
