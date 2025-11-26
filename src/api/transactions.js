@@ -53,3 +53,18 @@ export async function editExpense({ token, id, expense }) {
     throw new Error(message);
   }
 }
+
+export async function deleteExpense({ token, id }) {
+  try {
+    const data = await axios.delete(API_URL + id, {
+      hearers: {
+        Authorization: 'Bearer' + token,
+        'Content-Type': '',
+      }
+    })
+    return data.data;
+  } catch (error) {
+    const message = error?.response?.data?.error || error.message || 'Ошибка удаления транзакции';
+    throw new Error(message);
+  }
+}

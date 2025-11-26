@@ -270,7 +270,7 @@ export const NewExpenseInfo = styled.div`
 `;
 
 const NewExpenseButton = styled(Button)`
-  margin-top: 24px;
+  margin-top: ${({ $isError }) => ($isError ? '0px' : '24px')};
 `;
 
 export const NewExpenseCategory = styled.div`
@@ -324,11 +324,20 @@ export const CategoriesButtonContent = styled.div`
   }
 `;
 
+export const Error = styled.p`
+  color: ${(props) => props.theme.error || '#ff6666'};
+  text-align: center;
+  font-size: 10px;
+  padding-top: 4px;
+  height: 20px;
+`;
+
 export const ExpenseTable = () => {
   const titles = ['Описание', 'Категория', 'Дата', 'Сумма'];
   const [isEditExpense, setIsEditExpense] = useState(false);
   const [isSort, setIsSort] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
+  const [isError, setIsError] = useState('');
 
   const MOBILE_BREAKPOINT = 376;
 
@@ -457,6 +466,21 @@ export const ExpenseTable = () => {
       date: formData.date,
     };
 
+    if (!newExpense.description || !newExpense.sum || !newExpense.category || !newExpense.date) {
+      setIsError('Заполните все поля: описание, категория, дата, сумма');
+      return;
+    }
+
+    if (newExpense.sum < 0) {
+      setIsError('Сумма должна быть положительным числом');
+      return;
+    }
+
+    if (newExpense.description.length < 4) {
+      setIsError('В описании должно быть больше 4 символов');
+      return;
+    }
+
     try {
       await postExpense({ token, expense: newExpense });
       getTransactions();
@@ -543,7 +567,7 @@ export const ExpenseTable = () => {
                     <p>{expense.category}</p>
                   </ExpenseCategory>
                   <ExpenseDate>
-                    <p>{new Date(expense.date).toLocaleDateString("ru-RU")}</p>
+                    <p>{new Date(expense.date).toLocaleDateString('ru-RU')}</p>
                   </ExpenseDate>
                   <ExpenseSumm>
                     <p>{expense.sum} Р</p>
@@ -653,7 +677,8 @@ export const ExpenseTable = () => {
                     onChange={handleChange}
                   />
                 </NewExpenseInfo>
-                <NewExpenseButton onClick={createExpense}>
+                {isError && <Error>{isError}</Error>}
+                <NewExpenseButton $isError={isError} onClick={createExpense}>
                   <p>Добвить новый расход</p>
                 </NewExpenseButton>
               </NewExpenseConainer>
