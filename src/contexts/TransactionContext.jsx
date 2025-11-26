@@ -1,7 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
-import { fetchTransactions } from '../api/transactions';
-import { useAuth } from './AuthContext';
-import { TransactionContext } from './TransactionContext';
+import { createContext, useCallback, useEffect, useState } from "react";
+import { fetchTransactions } from "../api/transactions";
+import { useAuth } from "./AuthContext.jsx";
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const TransactionContext = createContext(null);
 
 export const TransactionProvider = ({ children }) => {
   const [expenses, setExpenses] = useState([]);
@@ -9,9 +11,7 @@ export const TransactionProvider = ({ children }) => {
 
   const getTransactions = useCallback(async () => {
     try {
-      const data = await fetchTransactions({
-        token,
-      });
+      const data = await fetchTransactions({ token });
       if (data) setExpenses(data);
     } catch (err) {
       console.log(err.message);

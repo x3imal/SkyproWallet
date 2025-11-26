@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import {Calendar} from "../components/Calendar/Calendar.jsx";
 import {ExpensesChartModal} from "../components/ExpensesChartModal/ExpensesChartModal.jsx";
+import newExpense from '../components/NewExpense/NewExpense.jsx';
 
 const Wrapper = styled.div`
     width: 100%;
@@ -27,6 +28,8 @@ const PageTitle = styled.div`
 `;
 
 export const AnalysisPage = () => {
+
+  const { expenses } = newExpense (null)
     return (
         <Wrapper>
             <PageTitle>
