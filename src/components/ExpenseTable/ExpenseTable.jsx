@@ -491,7 +491,7 @@ export const ExpenseTable = () => {
 
   const handleDelete = async (id) => {
     try {
-      const data = await deleteExpense({ token, id });
+      await deleteExpense({ token, id });
       getTransactions();
     } catch (err) {
       console.error('Ошибка в удалении расхода:', err);
@@ -573,7 +573,21 @@ export const ExpenseTable = () => {
                     <p>{expense.description}</p>
                   </ExpenseDiscription>
                   <ExpenseCategory>
-                    <p>{expense.category}</p>
+                    <p>
+                      {expense.category === 'food'
+                        ? 'Еда'
+                        : expense.category === 'transport'
+                          ? 'Транспорт'
+                          : expense.category === 'housing'
+                            ? 'Жилье'
+                            : expense.category === 'joy'
+                              ? 'Развлечения'
+                              : expense.category === 'education'
+                                ? 'Образование'
+                                : expense.category === 'others'
+                                  ? 'Другое'
+                                  : ''}
+                    </p>
                   </ExpenseCategory>
                   <ExpenseDate>
                     <p>{new Date(expense.date).toLocaleDateString('ru-RU')}</p>
@@ -692,7 +706,7 @@ export const ExpenseTable = () => {
                 </NewExpenseInfo>
                 {isError && <Error>{isError}</Error>}
                 <NewExpenseButton $isError={isError} onClick={createExpense}>
-                  <p>Добвить новый расход</p>
+                  <p>Добавить новый расход</p>
                 </NewExpenseButton>
               </NewExpenseConainer>
             </NewExpense>
